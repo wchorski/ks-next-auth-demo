@@ -1,1 +1,0 @@
-"use strict";exports.id=536,exports.ids=[536],exports.modules={17536:(e,r,t)=>{Object.defineProperty(r,"__esModule",{value:!0}),Object.defineProperty(r,"createProxy",{enumerable:!0,get:function(){return s}});let o=t(51447),s=o.createClientModuleProxy},73137:(e,r,t)=>{e.exports=t(20399)},51447:(e,r,t)=>{e.exports=t(73137).vendored["react-rsc"].ReactServerDOMWebpackServerEdge}};
