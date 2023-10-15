@@ -9,6 +9,7 @@ COPY . .
 
 RUN yarn install
 RUN yarn ks:build
+RUN yarn create-tables
 
 
 EXPOSE 3001

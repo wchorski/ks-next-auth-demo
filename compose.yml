@@ -30,8 +30,6 @@ services:
   #   networks:
   #     - this
   #     # - proxy # TODO turn back on when using proxy
-  #   # depends_on:
-  #   #   - db
 
   frontend:
     container_name: authtest-kypn-frontend
@@ -44,7 +42,7 @@ services:
       - 3000:3000
     networks:
       - this
-      - proxy # TODO turn back on when using proxy
+      # - proxy # TODO turn back on when using proxy
     # depends_on:
     #   - db
     #   # - backend
@@ -53,7 +51,6 @@ networks:
   this:
     name: authtest-kypn-network
     driver: bridge   
-    external: true
   # proxy:  # TODO turn back on when using proxy
   #   name: nginx-prox-mgmt-3_default # whatever proxy container network
   #   driver: bridge
