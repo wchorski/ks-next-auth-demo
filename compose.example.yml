@@ -1,5 +1,7 @@
 version: '3'
 
+## "authtest-kypn" === unique app name
+
 services:
 
   ## db container build seperately in ./db/compose.yml

@@ -299,7 +299,7 @@ export const nextAuthSessionStrategy = {
       data: {
         id: author.id,
         image: author.image,
-        dateCreated: author.createdAt,
+        dateCreated: author.dateCreated,
         name: author.name,
         email: author.email,
       } 

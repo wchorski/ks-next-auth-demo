@@ -110,10 +110,6 @@ export const rules = {
   canManagePosts({ session }: ListAccessArgs) {
     if (!isLoggedIn({ session })) return false;
     
-    console.log('***** canManagePosts')
-    console.log({session});
-    
-    
     // 1. Do they have the permission 
     if (permissions.canManagePosts({ session })) return true;
     
