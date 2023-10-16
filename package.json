@@ -5,6 +5,7 @@
   "scripts": {
     "ks:dev": "keystone dev",
     "ks:build": "keystone build",
+    "ks:generate": "keystone prisma generate",
     "ks:start": "keystone start",
     "n:dev": "next dev -p 3000",
     "n:build": "next build",

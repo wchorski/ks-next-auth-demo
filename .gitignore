@@ -1,7 +1,9 @@
 node_modules
-.keystone/admin
+.keystone
 keystone.db
 *.log
 .next
 .env
 /db/postgres
+.DS_Store
+.next
