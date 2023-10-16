@@ -73,6 +73,7 @@ export default async function HomePage(params:any) {
               <li key={u.id}>
                 <span>{u.name} </span>
                 <span>{u.email} </span>
+                <span>{u.dateCreated} </span>
                 {/* {u.about && (
                   <>
                     <hr />
