@@ -18,18 +18,18 @@ services:
   #   networks:
   #     - this
 
-  # backend:
-  #   container_name: authtest-kypn-backend
-  #   image: authtest-kypn:latest # rename ALL 'authtest-kypn' to a unique name 
-  #   restart: unless-stopped
-  #   build: 
-  #     context: ./
-  #     dockerfile: ./Dockerfile.backend
-  #   ports: # expose this if you're not using a proxy
-  #     - 3001:3000
-  #   networks:
-  #     - this
-  #     # - proxy # TODO turn back on when using proxy
+  backend:
+    container_name: authtest-kypn-backend
+    image: authtest-kypn:latest # rename ALL 'authtest-kypn' to a unique name 
+    restart: unless-stopped
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile.backend
+    ports: # expose this if you're not using a proxy
+      - 3001:3000
+    networks:
+      - this
+      # - proxy # TODO turn back on when using proxy
 
   frontend:
     container_name: authtest-kypn-frontend
