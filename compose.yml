@@ -20,20 +20,20 @@ services:
 
   backend:
     container_name: authtest-kypn-backend
-    image: authtest-kypn:latest # rename ALL 'authtest-kypn' to a unique name 
+    image: authtest-kypn-backend:latest # rename ALL 'authtest-kypn' to a unique name 
     restart: unless-stopped
     build: 
       context: ./
       dockerfile: ./Dockerfile.backend
     ports: # expose this if you're not using a proxy
-      - 3001:3000
+      - 3001:3001
     networks:
       - this
-      # - proxy # TODO turn back on when using proxy
+      - proxy # TODO turn back on when using proxy
 
   frontend:
     container_name: authtest-kypn-frontend
-    image: authtest-kypn:latest # rename ALL 'authtest-kypn' to a unique name 
+    image: authtest-kypn-frontend:latest # rename ALL 'authtest-kypn' to a unique name 
     restart: unless-stopped
     build: 
       context: ./
@@ -42,7 +42,7 @@ services:
       - 3000:3000
     networks:
       - this
-      # - proxy # TODO turn back on when using proxy
+      - proxy # TODO turn back on when using proxy
     # depends_on:
     #   - db
     #   # - backend
@@ -50,8 +50,9 @@ services:
 networks:    
   this:
     name: authtest-kypn-network
-    driver: bridge   
-  # proxy:  # TODO turn back on when using proxy
-  #   name: nginx-prox-mgmt-3_default # whatever proxy container network
-  #   driver: bridge
-  #   external: true
+    driver: bridge  
+    external: true 
+  proxy:  # TODO turn back on when using proxy
+    name: nginx-prox-mgmt-3_default # whatever proxy container network
+    driver: bridge
+    external: true
