@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { getContext } from '@keystone-6/core/context';
 import { getServerSession } from 'next-auth/next';
 import type { DefaultJWT } from 'next-auth/jwt';
@@ -9,7 +10,18 @@ import type { Context } from '.keystone/types';
 import bcrypt from 'bcryptjs';
 
 // WARNING: you need to change this
+// console.log(process.env.NEXTAUTH_URL);
+const NODE_ENV = process.env.NODE_ENV
+const NEXTAUTH_URL = process.env.NEXTAUTH_URL || 'no_auth_url'
 const sessionSecret = process.env.NEXTAUTH_SECRET;
+const useSecureCookies = NEXTAUTH_URL.startsWith("https://");
+const cookiePrefix = useSecureCookies ? "__Secure-" : "";
+// const hostName = new URL(NEXTAUTH_URL).hostname;
+const hostName = process.env.AUTH_HOSTNAME || 'no_hostname'
+console.log({hostName});
+
+
+
 
 let _keystoneContext: Context = (globalThis as any)._keystoneContext;
 
@@ -23,18 +35,12 @@ async function getKeystoneContext() {
     await import('@prisma/client')
 
     );
-    if (process.env.NODE_ENV !== 'production') {
+    if (NODE_ENV !== 'production') {
       (globalThis as any)._keystoneContext = _keystoneContext;
     }
   console.log('getKeystoneContext getKeystoneContext getKeystoneContext getKeystoneContext getKeystoneContext')
   return _keystoneContext;
 }
-type SeshUser = {
-  role?: any,
-  id?:string,
-}
-
-let seshUser:SeshUser = {}
 
 
 // see https://next-auth.js.org/configuration/options for more
@@ -42,9 +48,9 @@ export const nextAuthOptions = {
   secret: sessionSecret,
   callbacks: {
     async signIn({ user }: { user: DefaultUser }) {
-      console.log('callbacks, signIn ------- ');
+      // console.log('callbacks, signIn ------- ');
       
-      console.log({user});
+      // console.log({user});
       // console.error('next-auth signIn', { user, account, profile });
       const sudoContext = (await getKeystoneContext()).sudo();
 
@@ -71,24 +77,21 @@ export const nextAuthOptions = {
       // todo for now don't make new user if one does not exist
       if(!author){
         console.log('no user found in db')
-        return false
       }
       // console.log({author});
       
     
       // if not, sign up
-      // if (!author) {
-      //   await sudoContext.query.User.createOne({
-      //     data: {
-      //       authId: user.id,
-      //       name: user.name,
-      //       email: user.email,
-      //       image: user.image,
-      //     },
-      //   });
-      // }
-
-      seshUser = author
+      if (!author) {
+        await sudoContext.query.User.createOne({
+          data: {
+            authId: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.image,
+          },
+        });
+      }
 
       return true; // accept the signin
     },
@@ -102,7 +105,6 @@ export const nextAuthOptions = {
     }) {
 
       console.log('******** async session');
-      console.log({seshUser});
       // console.log({token});
       // console.log({session});
       const sudoContext = (await getKeystoneContext()).sudo();
@@ -132,8 +134,7 @@ export const nextAuthOptions = {
       const sessionObj = {
         ...session,
         authId: token.sub,
-        // id: seshUser?.id,
-        id: token.sub,
+        id: foundUser?.id,
         itemId: foundUser?.id,
         data: {
           role: foundUser?.role,
@@ -146,6 +147,29 @@ export const nextAuthOptions = {
       
       
       return sessionObj
+    },
+    redirect: async ({ url, baseUrl }: { url: string; baseUrl: string }) => {
+      console.log('>>> redirect');
+      console.log({hostName});
+      console.log({url});
+      console.log({baseUrl});
+      
+      
+      if (new URL(url).hostname === hostName) return Promise.resolve(url);
+      return Promise.resolve(baseUrl);
+    },
+  },
+
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        domain: (hostName.includes("localhost")) ? hostName : "." + hostName,
+      },
     },
   },
   providers: [
@@ -161,7 +185,7 @@ export const nextAuthOptions = {
         email: { label: "Email", type: "email", placeholder: "name@mail.com" },
         password: { label: "Password", type: "password", placeholder: "******" },
       },
-      authorize: async (credentials, req,) => {
+      authorize: async (credentials:any, req:any) => {
         console.log('authorize authorize authorize authorize authorize');
         // console.log({credentials});
 
@@ -187,7 +211,7 @@ export const nextAuthOptions = {
         
         // unauthorized
         if(!foundUser) {
-          console.log('no foundUser found in db')
+          console.log('Credentials: no foundUser found in db')
           return null
         }
 
@@ -238,6 +262,9 @@ export const nextAuthSessionStrategy = {
       const [key, value] = part.trim().split('=');
       cookies[key] = decodeURIComponent(value);
     }
+
+    console.log({cookies});
+    
 
     const nextAuthSession = await getServerSession(
       { headers, cookies } as any,

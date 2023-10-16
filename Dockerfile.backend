@@ -8,8 +8,8 @@ WORKDIR /app
 COPY . .
 
 RUN yarn install
-RUN yarn ks:build
 RUN yarn ks:generate
+RUN yarn ks:build
 
 
 EXPOSE 3001
