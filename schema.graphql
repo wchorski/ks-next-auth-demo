@@ -12,7 +12,7 @@ type User {
   role: Role
   posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
-  createdAt: DateTime
+  dateCreated: DateTime
 }
 
 scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
@@ -36,7 +36,7 @@ input UserWhereInput {
   image: StringFilter
   role: RoleWhereInput
   posts: PostManyRelationFilter
-  createdAt: DateTimeNullableFilter
+  dateCreated: DateTimeNullableFilter
 }
 
 input IDFilter {
@@ -109,7 +109,7 @@ input UserOrderByInput {
   email: OrderDirection
   password: OrderDirection
   image: OrderDirection
-  createdAt: OrderDirection
+  dateCreated: OrderDirection
 }
 
 enum OrderDirection {
@@ -126,7 +126,7 @@ input UserUpdateInput {
   image: String
   role: RoleRelateToOneForUpdateInput
   posts: PostRelateToManyForUpdateInput
-  createdAt: DateTime
+  dateCreated: DateTime
 }
 
 input RoleRelateToOneForUpdateInput {
@@ -156,7 +156,7 @@ input UserCreateInput {
   image: String
   role: RoleRelateToOneForCreateInput
   posts: PostRelateToManyForCreateInput
-  createdAt: DateTime
+  dateCreated: DateTime
 }
 
 input RoleRelateToOneForCreateInput {

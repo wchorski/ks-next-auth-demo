@@ -8,15 +8,11 @@ require('dotenv').config()
 
 import { config } from '@keystone-6/core';
 
-// to keep this file tidy, we define our schema in a different file
 import { lists } from './src/keystone/schema';
 import { nextAuthSessionStrategy } from './session';
 import { seedDemoData } from './src/keystone/seed';
 import type { Context } from '.keystone/types';
 
-// authentication is configured separately here too, but you might move this elsewhere
-// when you write your list-level access control functions, as they typically rely on session data
-// import { withAuth, session } from './auth';
 
 const DB_PROTOCOL = process.env.DB_PROTOCOL
 const DB_USER = process.env.DB_USER
@@ -37,7 +33,7 @@ const DB_ENDPOINT = DB_PROTOCOL
                     +'/'
                     +DB_COLLECTION
                     +'?connect_timeout=300'
-console.log({DB_ENDPOINT});
+// console.log({DB_ENDPOINT});
 
 
 export default config({

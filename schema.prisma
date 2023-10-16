@@ -12,17 +12,17 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  name      String    @default("")
-  nameLast  String    @default("")
-  authId    String    @unique @default("")
-  email     String    @unique @default("")
-  password  String    @default("")
-  image     String    @default("")
-  role      Role?     @relation("User_role", fields: [roleId], references: [id])
-  roleId    String?   @map("role")
-  posts     Post[]    @relation("Post_author")
-  createdAt DateTime? @default(now())
+  id          String    @id @default(cuid())
+  name        String    @default("")
+  nameLast    String    @default("")
+  authId      String    @unique @default("")
+  email       String    @unique @default("")
+  password    String    @default("")
+  image       String    @default("")
+  role        Role?     @relation("User_role", fields: [roleId], references: [id])
+  roleId      String?   @map("role")
+  posts       Post[]    @relation("Post_author")
+  dateCreated DateTime? @default(now())
 
   @@index([roleId])
 }

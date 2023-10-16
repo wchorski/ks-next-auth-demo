@@ -105,7 +105,7 @@ export type Product = {
   stripePriceId: string,
   tags: Tag[],
   categories: Category[],
-  createdAt: string,
+  dateCreated: string,
   dateModified: string,
 }
 
@@ -169,14 +169,13 @@ export type User = {
   gigs: any[],
   availability: Availability[],
   cart: CartItem[],
-  createdAt: string,
+  dateCreated: string,
   dateModified: string,
   products: Product[],
   subscriptionPlans: any[],
   subscriptions: any[],
   orders: OrderItem[],
   role: any,
-  dateCreated: string,
 }
 
 export type Availability = {

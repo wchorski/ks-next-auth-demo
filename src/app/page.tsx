@@ -19,8 +19,14 @@ export default async function HomePage(params:any) {
   
   // const session = {};
   const users = await keystoneContext.withSession(session).query.User.findMany({
-    query: 'id name email ',
+    query: `
+      id 
+      name 
+      email
+      dateCreated
+    `,
   });
+  console.log({users})
 
   const posts = await keystoneContext.withSession(session).query.Post.findMany({
     query: `

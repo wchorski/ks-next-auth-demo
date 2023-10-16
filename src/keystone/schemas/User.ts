@@ -77,7 +77,7 @@ export const User:Lists.User = list({
     role: relationship({ ref: 'Role.assignedTo'}),
     posts: relationship({ ref: 'Post.author', many: true}),
 
-    createdAt: timestamp({
+    dateCreated: timestamp({
       // this sets the timestamp to Date.now() when the user is first created
       defaultValue: { kind: 'now' },
     }),
