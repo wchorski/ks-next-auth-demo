@@ -2,6 +2,7 @@ version: '3'
 
 services:
 
+  ## db container build seperately in ./db/compose.yml
   # db:
   #   container_name: authtest-kypn-db
   #   image: postgres:15
@@ -48,6 +49,7 @@ services:
     #   # - backend
 
 networks:    
+  ## network first built in ./db/compose.yml, then linked with 'external: true' here
   this:
     name: authtest-kypn-network
     driver: bridge  

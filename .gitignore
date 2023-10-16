@@ -7,3 +7,4 @@ keystone.db
 /db/postgres
 .DS_Store
 .next
+compose.yml
